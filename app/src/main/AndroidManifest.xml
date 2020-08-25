@@ -21,6 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <service
+            android:name=".services.JobSchedulerExample"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+    </application>
 </manifest>

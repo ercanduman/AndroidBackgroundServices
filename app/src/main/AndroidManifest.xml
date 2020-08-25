@@ -4,6 +4,8 @@
     package="com.enbcreative.androidbackgroundservices">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
@@ -29,5 +31,6 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service android:name=".services.ForegroundServiceExample" />
+        <service android:name=".services.IntentServiceExample" />
     </application>
 </manifest>

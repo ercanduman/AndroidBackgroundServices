@@ -58,6 +58,7 @@ class IntentServiceExample : IntentService("IntentServiceExample") {
             Log.d(TAG, "backgroundWork: run: $i")
             sleep(1000)
         }
+        Log.d(TAG, "backgroundWork: Task completed.")
     }
 
     companion object {

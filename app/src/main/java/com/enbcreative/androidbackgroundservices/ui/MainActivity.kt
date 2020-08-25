@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import com.enbcreative.androidbackgroundservices.JOB_ID
 import com.enbcreative.androidbackgroundservices.R
 import com.enbcreative.androidbackgroundservices.services.ForegroundServiceExample
+import com.enbcreative.androidbackgroundservices.services.IntentServiceExample
 import com.enbcreative.androidbackgroundservices.services.JobSchedulerExample
 import com.enbcreative.androidbackgroundservices.utils.logd
 import com.google.android.material.snackbar.Snackbar
@@ -19,7 +20,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
                 .setAction(getString(R.string.stop)) {
                     stopJobScheduler()
                     stopMyForegroundService()
+                    stopIntentService()
                 }.show()
         }
     }
@@ -73,6 +74,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun startIntentService() {
+        val input = edt_input_text.text.toString()
+        Intent(this, IntentServiceExample::class.java).apply {
+            putExtra(KEY_INPUT, input)
+            ContextCompat.startForegroundService(this@MainActivity, this)
+        }
+    }
+
+    private fun stopIntentService() {
+        Intent(this, IntentServiceExample::class.java).apply {
+            stopService(this)
+        }
+    }
+
     companion object {
         const val KEY_INPUT = "KEY_INPUT"
     }
@@ -88,6 +103,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.start_foreground_service -> {
                 startMyForegroundService()
+                true
+            }
+            R.id.start_intent_service -> {
+                startIntentService()
                 true
             }
             else -> super.onOptionsItemSelected(item)

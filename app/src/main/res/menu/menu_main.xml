@@ -1,15 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.enbcreative.androidbackgroundservices.ui.MainActivity">
     <item
         android:id="@+id/start_job_scheduler"
-        android:orderInCategory="100"
-        android:title="@string/start_job_scheduler"
-        app:showAsAction="never" />
+        android:title="@string/start_job_scheduler" />
     <item
         android:id="@+id/start_foreground_service"
-        android:orderInCategory="101"
-        android:title="@string/start_foreground_service"
-        app:showAsAction="never" />
+        android:title="@string/start_foreground_service" />
+    <item
+        android:id="@+id/start_intent_service"
+        android:title="@string/start_intent_service" />
 </menu>

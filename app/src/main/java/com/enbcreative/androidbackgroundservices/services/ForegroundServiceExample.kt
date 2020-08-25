@@ -7,8 +7,10 @@ import android.util.Log
 import com.enbcreative.androidbackgroundservices.EMPTY_STRING
 import com.enbcreative.androidbackgroundservices.ui.MainActivity
 import com.enbcreative.androidbackgroundservices.utils.Notifications
+import java.lang.Thread.sleep
 
 class ForegroundServiceExample : Service() {
+    private var isJobCancelled = false
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "onCreate: Service created.")
@@ -33,11 +35,28 @@ class ForegroundServiceExample : Service() {
          * When work done stopSelf() has to be called which is going to stop service.
          */
         // stopSelf()
+        backgroundWork()
+
         return START_NOT_STICKY
     }
 
+    /**
+     * Start a background work and finish Foreground service when job done.
+     */
+    private fun backgroundWork() {
+        Thread {
+            for (i in 1..10) {
+                Log.d(TAG, "backgroundWork: run: $i")
+                if (isJobCancelled) return@Thread
+                sleep(1000)
+            }
+            Log.d(TAG, "backgroundWork: job completed.")
+            stopSelf()
+        }.start()
+    }
 
     override fun onDestroy() {
+        isJobCancelled = true
         Log.d(TAG, "onDestroy: Service is destroyed.")
         super.onDestroy()
     }

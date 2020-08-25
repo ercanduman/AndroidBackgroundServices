@@ -3,12 +3,15 @@ package com.enbcreative.androidbackgroundservices.ui
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.enbcreative.androidbackgroundservices.JOB_ID
 import com.enbcreative.androidbackgroundservices.R
+import com.enbcreative.androidbackgroundservices.services.ForegroundServiceExample
 import com.enbcreative.androidbackgroundservices.services.JobSchedulerExample
 import com.enbcreative.androidbackgroundservices.utils.logd
 import com.google.android.material.snackbar.Snackbar
@@ -24,9 +27,11 @@ class MainActivity : AppCompatActivity() {
 
         fab_main.setOnClickListener { view ->
             Snackbar.make(view, getString(R.string.stop_services), Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.stop)) { stopJobScheduler() }.show()
+                .setAction(getString(R.string.stop)) {
+                    stopJobScheduler()
+                    stopMyForegroundService()
+                }.show()
         }
-        button_job_scheduler.setOnClickListener { startJobScheduler() }
     }
 
     private fun startJobScheduler() {
@@ -53,10 +58,23 @@ class MainActivity : AppCompatActivity() {
         logd("Job cancelled.")
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+    private fun startMyForegroundService() {
+        val input = edt_input_text.text.toString()
+
+        Intent(this, ForegroundServiceExample::class.java).apply {
+            putExtra(KEY_INPUT, input)
+            ContextCompat.startForegroundService(this@MainActivity, this)
+        }
+    }
+
+    private fun stopMyForegroundService() {
+        Intent(this, ForegroundServiceExample::class.java).apply {
+            stopService(this)
+        }
+    }
+
+    companion object {
+        const val KEY_INPUT = "KEY_INPUT"
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -64,8 +82,21 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.start_job_scheduler -> {
+                startJobScheduler()
+                true
+            }
+            R.id.start_foreground_service -> {
+                startMyForegroundService()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
     }
 }

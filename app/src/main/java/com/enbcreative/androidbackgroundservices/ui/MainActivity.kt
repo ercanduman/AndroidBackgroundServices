@@ -1,11 +1,14 @@
-package com.enbcreative.androidbackgroundservices
+package com.enbcreative.androidbackgroundservices.ui
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import com.enbcreative.androidbackgroundservices.R
+import com.enbcreative.androidbackgroundservices.utils.logd
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,9 +18,18 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            Snackbar.make(view, "Stop running service", Snackbar.LENGTH_LONG)
+                .setAction("Stop") { stopJobScheduler() }.show()
         }
+        button_job_scheduler.setOnClickListener { startJobScheduler() }
+    }
+
+    private fun startJobScheduler() {
+        logd("Job scheduler start clicked.")
+    }
+
+    private fun stopJobScheduler() {
+        logd("Job scheduler stop  clicked.")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

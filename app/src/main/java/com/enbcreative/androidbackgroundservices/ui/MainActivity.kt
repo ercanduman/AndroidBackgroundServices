@@ -13,6 +13,7 @@ import com.enbcreative.androidbackgroundservices.JOB_ID
 import com.enbcreative.androidbackgroundservices.R
 import com.enbcreative.androidbackgroundservices.services.ForegroundServiceExample
 import com.enbcreative.androidbackgroundservices.services.IntentServiceExample
+import com.enbcreative.androidbackgroundservices.services.JobIntentServiceExample
 import com.enbcreative.androidbackgroundservices.services.JobSchedulerExample
 import com.enbcreative.androidbackgroundservices.utils.logd
 import com.google.android.material.snackbar.Snackbar
@@ -88,6 +89,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun startJobIntentService() {
+        Intent(this, JobIntentServiceExample::class.java).apply {
+            putExtra(KEY_INPUT, edt_input_text.text.toString())
+            JobIntentServiceExample.enqueueWork(this@MainActivity, this)
+        }
+    }
+
     companion object {
         const val KEY_INPUT = "KEY_INPUT"
     }
@@ -107,6 +115,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.start_intent_service -> {
                 startIntentService()
+                true
+            }
+            R.id.start_job_intent_service -> {
+                startJobIntentService()
                 true
             }
             else -> super.onOptionsItemSelected(item)

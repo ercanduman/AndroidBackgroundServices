@@ -25,14 +25,13 @@ class JobIntentServiceExample : JobIntentService() {
         backgroundWork()
     }
 
-    fun enqueueWork(context: Context, work: Intent) {
-        enqueueWork(context, JobIntentServiceExample::class.java, JOB_ID, work)
-    }
-
     private fun backgroundWork() {
         for (i in 0 until 10) {
             Log.d(TAG, "backgroundWork: run: $i")
-            if (isStopped) return
+            if (isStopped) {
+                Log.d(TAG, "backgroundWork: Job stopped before completion.")
+                return
+            }
             SystemClock.sleep(1000)
         }
         Log.d(TAG, "backgroundWork: Task completed.")
@@ -59,5 +58,9 @@ class JobIntentServiceExample : JobIntentService() {
     companion object {
         private const val TAG = "JobIntentServiceExample"
         private const val JOB_ID = 123
+
+        fun enqueueWork(context: Context, work: Intent) {
+            enqueueWork(context, JobIntentServiceExample::class.java, JOB_ID, work)
+        }
     }
 }

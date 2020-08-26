@@ -10,4 +10,7 @@
     <item
         android:id="@+id/start_intent_service"
         android:title="@string/start_intent_service" />
+    <item
+        android:id="@+id/start_job_intent_service"
+        android:title="@string/start_job_intent_service" />
 </menu>

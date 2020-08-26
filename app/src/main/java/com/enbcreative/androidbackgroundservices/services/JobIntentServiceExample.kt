@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.core.app.JobIntentService
 import com.enbcreative.androidbackgroundservices.EMPTY_STRING
 import com.enbcreative.androidbackgroundservices.ui.MainActivity
+import com.enbcreative.androidbackgroundservices.utils.Notifications
 
 class JobIntentServiceExample : JobIntentService() {
     /**
@@ -16,6 +17,13 @@ class JobIntentServiceExample : JobIntentService() {
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, "onCreate: Job Intent service created.")
+
+        /**
+         * If Job Intent Service is run via foreground notification then system does not kill the process until it is finished
+         */
+        val notification =
+            Notifications.createNotification(this, "Job Intent service example running...")
+        startForeground(JOB_ID, notification)
     }
 
     override fun onHandleWork(intent: Intent) {
